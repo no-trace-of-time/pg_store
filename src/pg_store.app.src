@@ -1,16 +1,24 @@
 {application, pg_store,
- [{description, "An OTP application"},
-  {vsn, "0.1.0"},
-  {registered, []},
-  {mod, { pg_store_app, []}},
-  {applications,
-   [kernel,
-    stdlib
-   ]},
-  {env,[]},
-  {modules, []},
+  [{description, "An OTP application"},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {mod, {pg_store_app, []}},
+    {applications,
+      [kernel,
+        stdlib,
+        mnesia
+      ]},
+    {env, [
+      {mnesia_dir_sub, "mnesia_store"}
+      , {mnesia_dir, [home, mnesia_dir_sub]}
+    ]},
+    {modules, [
+      pg_store_sup
+      , pg_store
 
-  {maintainers, []},
-  {licenses, ["Apache 2.0"]},
-  {links, []}
- ]}.
+    ]},
+
+    {maintainers, []},
+    {licenses, ["Apache 2.0"]},
+    {links, []}
+  ]}.

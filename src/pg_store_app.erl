@@ -10,16 +10,25 @@
 %% Application callbacks
 -export([start/2, stop/1]).
 
+-define(APP, pg_store).
 %%====================================================================
 %% API
 %%====================================================================
 
 start(_StartType, _StartArgs) ->
-    pg_store_sup:start_link().
+  %% start mnesia
+  {ok, MnesiaDirCfg} = application:get_env(?APP, mnesia_dir),
+  MnesiaDir = xfutils:get_path(?APP, MnesiaDirCfg),
+  lager:error("Mnesia app dir = ~p", [MnesiaDir]),
+  application:set_env(mnesia, dir, MnesiaDir),
+  mnesia:stop(),
+  ok = mnesia:start(),
+
+  pg_store_sup:start_link().
 
 %%--------------------------------------------------------------------
 stop(_State) ->
-    ok.
+  ok.
 
 %%====================================================================
 %% Internal functions
