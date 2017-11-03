@@ -11,6 +11,7 @@
     {env, [
       {mnesia_dir_sub, "mnesia_store"}
       , {mnesia_dir, [home, mnesia_dir_sub]}
+      , {db_backup_dir, "backup.db"}
     ]},
     {modules, [
       pg_store_sup

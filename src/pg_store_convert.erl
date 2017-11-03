@@ -1,0 +1,58 @@
+%%%-------------------------------------------------------------------
+%%% @author simon
+%%% @copyright (C) 2017, <COMPANY>
+%%% @doc
+%%%
+%%% @end
+%%% Created : 03. 十一月 2017 10:44
+%%%-------------------------------------------------------------------
+-module(pg_store_convert).
+-author("simon").
+
+%% API
+-export([
+  convert_node_name/4
+]).
+
+
+%%------------------------------------------------------------------
+convert_node_name(From, To, FromFile, ToFile)
+  when is_atom(From), is_atom(To), is_binary(FromFile), is_binary(ToFile) ->
+
+  BackupDir = pg_store:backup_dir(),
+
+  do_convert_node_name(mnesia_backup, From, To,
+    <<BackupDir/binary, FromFile/binary>>,
+    <<BackupDir/binary, ToFile/binary>>),
+  ok.
+
+do_convert_node_name(Mod, From, To, Source, Target) ->
+  Convert = convert_fun(From, To),
+  mnesia:traverse_backup(Source, Mod, Target, Mod, Convert, switched).
+
+convert_fun(From, To) ->
+  fun
+    ({schema, db_nodes, Nodes}, Acc) ->
+      L = [maybe_convert(X, {From, To}) || X <- Nodes],%:>
+      {[{schema, db_nodes, L}], Acc};
+    ({schema, Tab, CreateList}, Acc) ->
+      L = [maybe_key(KeyVal, {From, To}) || KeyVal <- CreateList], %:>
+      {[{schema, Tab, L}], Acc};
+    (Other, Acc) -> {[Other], Acc}
+  end.
+
+maybe_convert(N, {N, To}) -> To;
+maybe_convert(N, {_From, N}) -> throw({error, already_exists});
+maybe_convert(N, {_, _}) -> N.
+
+maybe_key({Key, Vals}, B) ->
+  Keys = [ram_copies, disc_copies, disc_only_copies],
+  Member = lists:member(Key, Keys),
+  maybe_key({Key, Vals}, B, Member).
+
+maybe_key({Key, Vals}, B, true) ->
+  L = [maybe_convert(X, B) || X <- Vals], %:>
+  {Key, L};
+maybe_key(A, _, false) -> A.
+
+

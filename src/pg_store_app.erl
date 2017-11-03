@@ -17,12 +17,7 @@
 
 start(_StartType, _StartArgs) ->
   %% start mnesia
-  {ok, MnesiaDirCfg} = application:get_env(?APP, mnesia_dir),
-  MnesiaDir = xfutils:get_path(?APP, MnesiaDirCfg),
-  lager:error("Mnesia app dir = ~p", [MnesiaDir]),
-  application:set_env(mnesia, dir, MnesiaDir),
-  mnesia:stop(),
-  ok = mnesia:start(),
+  ok = pg_store:mnesia_startup(),
 
   pg_store_sup:start_link().
 
