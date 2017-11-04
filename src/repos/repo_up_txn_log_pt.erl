@@ -7,9 +7,14 @@
 %%% Created : 20. Jan 2017 1:43 PM
 %%%-------------------------------------------------------------------
 -module(repo_up_txn_log_pt).
+-include_lib("mixer/include/mixer.hrl").
 -compile({parse_trans, exprecs}).
 -behavior(pg_repo).
 -author("simon").
+
+-mixin([{pg_store, [
+  pr_formatter/1
+]}]).
 
 %% API
 %% callbacks

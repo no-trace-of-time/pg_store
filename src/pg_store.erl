@@ -26,6 +26,10 @@
   init_table/0
 ]).
 
+%% pr_formatter
+-export([
+  pr_formatter/1
+]).
 
 -define(APP, pg_store).
 %%------------------------------------------------
@@ -97,4 +101,15 @@ db_init() ->
 
   ],
   [pg_repo:init(Tbl) || Tbl <- Tbls].
+
+%%------------------------------------------------
+pr_formatter(Field)
+  when (Field =:= order_desc)
+  or (Field =:= reqReserved)
+  or (Field =:= reserved)
+  ->
+  string;
+pr_formatter(_) ->
+  ok.
+
 
