@@ -1,0 +1,4 @@
+-record({{tableName}}, {
+{% for field in fields|join:"," %}{{field}}
+{% endfor %}
+}).
