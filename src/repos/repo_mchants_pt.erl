@@ -34,6 +34,7 @@
 -type name() :: binary().
 -type status() :: normal | forizon | closed.
 -type payment_method() :: [gw_netbank | gw_wap | gw_app].
+-type sign_method() :: rsa_hex | rsa_base64.
 
 
 -export_type([id/0, name/0, status/0]).
@@ -44,6 +45,7 @@
   , mcht_short_name = <<"">> :: name()
   , status = normal :: status()
   , payment_method = [gw_netbank] :: payment_method()
+  , sign_method = rsa_hex :: sign_method()
   , up_mcht_id = <<"">> :: binary()
   , quota = [{txn, -1}, {daily, -1}, {monthly, -1}] :: list()
   , up_term_no = <<"12345678">> :: binary()
