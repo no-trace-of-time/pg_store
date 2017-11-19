@@ -65,6 +65,10 @@
   , id_name
   , mobile
 
+  , batch_no
+  , txn_count
+  , file_content
+
 
 }).
 -type ?TBL() :: #?TBL{}.
