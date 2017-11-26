@@ -7,10 +7,10 @@
 %%% Created : 23. Dec 2016 8:17 PM
 %%%-------------------------------------------------------------------
 -module(repo_backend_users_pt).
+-include_lib("mixer/include/mixer.hrl").
 -compile({parse_trans, exprecs}).
 -behavior(pg_repo).
 -author("simon").
--include_lib("mixer/include/mixer.hrl").
 
 %% API
 %% callbacks

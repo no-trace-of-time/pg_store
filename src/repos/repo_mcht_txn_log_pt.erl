@@ -7,7 +7,6 @@
 %%% Created : 23. Dec 2016 8:17 PM
 %%%-------------------------------------------------------------------
 -module(repo_mcht_txn_log_pt).
--include_lib("mixer/include/mixer.hrl").
 -compile({parse_trans, exprecs}).
 -behavior(pg_repo).
 -author("simon").
@@ -23,10 +22,6 @@
 -export([
   table_config/0
 ]).
-
--mixin([{pg_store, [
-  pr_formatter/1
-]}]).
 
 -compile(export_all).
 %%-------------------------------------------------------------
