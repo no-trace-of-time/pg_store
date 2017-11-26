@@ -10,7 +10,11 @@
 -compile({parse_trans, exprecs}).
 -behavior(pg_repo).
 -author("simon").
+-include_lib("mixer/include/mixer.hrl").
 
+-mixin([
+  {pg_store, [pr_formatter/1]}
+]).
 %% API
 %% callbacks
 -export([

@@ -10,12 +10,17 @@
 -compile({parse_trans, exprecs}).
 -behavior(pg_repo).
 -author("simon").
+-include_lib("mixer/include/mixer.hrl").
 
 %% API
 %% callbacks
 -export([
   %% table define related
   table_config/0
+]).
+
+-mixin([
+  {pg_store, [pr_formatter/1]}
 ]).
 %%-------------------------------------------------------------
 -define(TBL, users).

@@ -107,6 +107,10 @@ pr_formatter(Field)
   when (Field =:= order_desc)
   or (Field =:= reqReserved)
   or (Field =:= reserved)
+  or (Field =:= up_respMsg)
+  or (Field =:= up_origRespMsg)
+  or (Field =:= up_fileContent)
+  or (Field =:= id_name)
   ->
   string;
 pr_formatter(_) ->
